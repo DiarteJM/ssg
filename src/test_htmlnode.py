@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 # Template for HTMLNode Tests: HTMLNode(tag, value, children, props)
 class TestHTMLNode(unittest.TestCase):
@@ -36,3 +36,16 @@ class TestHTMLNode(unittest.TestCase):
     props = {"class": "container", "id": "main"}
     node = HTMLNode(None, None, [], props)
     self.assertEqual(node.props_to_html(), 'class="container" id="main"')
+    
+## LeafNode Tests ##
+
+  def test_leaf_node(self):
+    leaf = LeafNode("span", "Leaf content", [], {"class": "leaf"})
+    self.assertEqual(leaf.tag, "span")
+    self.assertEqual(leaf.value, "Leaf content")
+    self.assertEqual(leaf.children, [])
+    self.assertEqual(leaf.props, {"class": "leaf"})
+
+  def test_leaf_node_to_html(self):
+    leaf = LeafNode("span", "Leaf content", [], {"class": "leaf"})
+    self.assertEqual(leaf.to_html(), '<span class="leaf">Leaf content</span>')
