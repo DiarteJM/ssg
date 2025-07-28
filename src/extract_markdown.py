@@ -64,3 +64,23 @@ def extract_markdown_links_nodes(old_nodes):
             new_nodes.append(TextNode(remaining_text, TextType.TEXT))
                 
     return new_nodes
+
+def markdown_to_blocks(markdown):
+    # takes a raw Markdown string (representing a full document) and returns a list of Block strings.
+    md_split = markdown.split("\n\n")
+    
+    result = []
+
+    for block in md_split:
+        blocks_strip = block.strip()
+        if blocks_strip:
+            # handle indentation on lines
+            lines = blocks_strip.split("\n")
+            # print(lines)
+            # strip each line and join together with new lines
+            str_block = "\n".join(line.strip() for line in lines)
+            result.append(str_block)
+            
+    # print(result)
+    return result
+        
