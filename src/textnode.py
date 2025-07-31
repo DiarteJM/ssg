@@ -59,8 +59,7 @@ def text_node_to_html_node(text_node):
         return LeafNode(None, text_node.text)
     
 # Import the helper functions from their respective modules
-from src.splitdelimiter import split_nodes_delimiter
-from src.extract_markdown import extract_markdown_images_nodes, extract_markdown_links_nodes
+from src.splitdelimiter import split_nodes_delimiter, split_nodes_image, split_nodes_link
 
 def text_to_text_node(text):
     """Convert markdown-formatted text to a list of TextNode objects."""
@@ -105,9 +104,9 @@ def text_to_text_node(text):
     
     # Process for each markdown delimiter in this specific order
     # First handle images (they contain link syntax)
-    nodes = extract_markdown_images_nodes(nodes)
+    nodes = split_nodes_image(nodes)
     # Then handle links
-    nodes = extract_markdown_links_nodes(nodes)
+    nodes = split_nodes_link(nodes)
     # Then handle other formatting
     nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
     nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)

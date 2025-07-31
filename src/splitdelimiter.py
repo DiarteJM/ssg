@@ -1,6 +1,14 @@
 from src.textnode import TextNode, TextType
-from src.extract_markdown import extract_markdown_images, extract_markdown_links
+import re
 
+# Helper functions to avoid circular imports
+def extract_markdown_images(text):
+    """Extract image patterns from plain text."""
+    return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
+def extract_markdown_links(text):
+    """Extract link patterns from plain text."""
+    return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     """
@@ -83,6 +91,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         new_nodes.extend(result)
                 
     return new_nodes
+
+# Reimplemented split_nodes_image and split_nodes_link functions
 
 def split_nodes_image(old_nodes):
     """
