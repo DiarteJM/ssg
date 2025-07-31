@@ -11,6 +11,10 @@ sys.path.insert(0, current_dir)
 from src.generate_page import generate_page, generate_pages_recursive
 from src.helpers import _recursive_copy, copy_static_to_public_single
 
+# configure the basepath using sys.argv to grab the first CLI argument to the program & save as 'basepath'.
+basepath = sys.argv[1] if len(sys.argv) > 1 else '/'
+
+
 def process_markdown_directory(content_dir, dest_dir, template_file, base_path=None, skip_root_index=False):
     """
     Recursively process markdown files in a directory structure and generate HTML files.
@@ -71,16 +75,16 @@ def process_markdown_directory(content_dir, dest_dir, template_file, base_path=N
             generate_page(item_path, template_file, output_file_path)
             logging.info(f"✓ Page generated at '{output_file_path}'")
 
-def copy_static_to_public(src_dir="static", dest_dir="public", content_dir="content", template_file="template.html"):
+def copy_static_to_public(src_dir="static", dest_dir="docs", content_dir="content", template_file="template.html"):
     """
-    Build the public directory by:
+    Build the docs directory by:
     1. Clearing the destination directory
     2. Copying all contents from src_dir to dest_dir recursively
     3. Generating an HTML page from markdown content using a template
     
     Args:
         src_dir (str): Source directory path (default: "static")
-        dest_dir (str): Destination directory path (default: "public")
+        dest_dir (str): Destination directory path (default: "docs")
         content_dir (str): Content directory containing markdown files (default: "content")
         template_file (str): Path to HTML template file (default: "template.html")
     
@@ -148,9 +152,9 @@ def copy_static_to_public(src_dir="static", dest_dir="public", content_dir="cont
 if __name__ == "__main__":
     # Example 1: Use default directories and files
     # This will:
-    # - Clear the 'public' directory
-    # - Copy 'static' folder contents to 'public'
-    # - Generate 'public/index.html' from 'content/index.md' using 'template.html'
+    # - Clear the 'docs' directory
+    # - Copy 'static' folder contents to 'docs'
+    # - Generate 'docs/index.html' from 'content/index.md' using 'template.html'
     success = copy_static_to_public()
     
     # Example 2: Use custom directories and template

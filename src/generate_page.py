@@ -1,8 +1,10 @@
 import os
+import sys
 
 from src.extract_title import extract_title
 from src.markdown_to_html import markdown_to_html_node
 
+basepath = sys.argv[1] if len(sys.argv) > 1 else '/'
 
 def generate_page(from_path, template_path, dest_path):
   # Print a message like "Generating page from `from_path` to `dest_path` using `template_path`".
@@ -20,6 +22,10 @@ def generate_page(from_path, template_path, dest_path):
   title = extract_title(markdown_content)
   # Replace the `{{ Title }}` and `{{ Content }}` placeholders in the template with the HTML and title generated.
   full_content = template_content.replace("{{ Title }}", title).replace("{{ Content }}", html_content)
+  # Replace any instances of href="/ with href="{basepath}" in the full content.
+  full_content = full_content.replace('href="/', f'href="{basepath}"')
+  # Replace any instances of src="/ with src="{basepath}" in the full content.
+  full_content = full_content.replace('src="/', f'src="{basepath}"')
   # Write the new full HTML page to a file at `dest_path`. Be sure to create any necessary directories if they don't exist.
   os.makedirs(os.path.dirname(dest_path), exist_ok=True)
   with open(dest_path, 'w', encoding='utf-8') as file:
